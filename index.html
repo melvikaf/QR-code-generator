@@ -8,6 +8,7 @@
       content="Create a custom QR code in seconds. Design it, preview it, and download it for free."
     />
     <meta name="theme-color" content="#f7f7f4" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>QR Studio — Make it scannable</title>
   </head>
   <body>
@@ -52,7 +53,7 @@
               <label for="content">YOUR CONTENT</label>
               <textarea id="content" rows="3" maxlength="2000" placeholder="Paste a link or type a message..." spellcheck="false">https://example.com</textarea>
               <div class="input-footer">
-                <span class="input-hint"><span class="tiny-spark">✳</span> Links, text, email, anything.</span>
+                <span class="input-hint">Links, text, email, anything.</span>
                 <span id="character-count">19 / 2000</span>
               </div>
             </div>
@@ -133,7 +134,6 @@
               <div class="qr-frame" id="qr-frame">
                 <canvas id="qr-canvas" aria-label="Generated QR code with optional label and frame"></canvas>
                 <div class="empty-state" id="empty-state">
-                  <span class="empty-icon" aria-hidden="true">⌁</span>
                   <span>Your QR code will<br />appear here</span>
                 </div>
               </div>

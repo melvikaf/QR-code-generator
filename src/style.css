@@ -38,6 +38,7 @@ button {
 .app-shell {
   width: min(1160px, calc(100% - 80px));
   margin: 0 auto;
+  padding-bottom: 64px;
 }
 
 .topbar {
@@ -242,11 +243,6 @@ textarea::placeholder {
 
 .input-hint {
   color: #858a8f;
-}
-
-.tiny-spark {
-  padding-right: 4px;
-  color: var(--accent);
 }
 
 .divider {
@@ -584,13 +580,6 @@ textarea::placeholder {
   text-align: center;
 }
 
-.empty-icon {
-  color: #d0d1cc;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 44px;
-  line-height: 1;
-}
-
 .preview-caption {
   display: flex;
   align-items: center;
@@ -702,6 +691,7 @@ textarea::placeholder {
 @media (max-width: 420px) {
   .app-shell {
     width: calc(100% - 28px);
+    padding-bottom: 40px;
   }
 
   .topbar-note {
