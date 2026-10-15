@@ -1,0 +1,18 @@
+{
+  "name": "qr-code-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "vite": "^6.4.1"
+  }
+}

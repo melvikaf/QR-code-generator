@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Create a custom QR code in seconds. Design it, preview it, and download it for free."
+    />
+    <meta name="theme-color" content="#f7f7f4" />
+    <title>QR Studio — Make it scannable</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="QR Studio home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M4 4h10v10H4zM18 4h10v10H18zM4 18h10v10H4z" />
+              <path d="M8 8h2v2H8zM22 8h2v2h-2zM8 22h2v2H8zM18 18h4v4h-4zM24 24h4v4h-4zM24 18h4v3h-4zM18 25h3v3h-3z" />
+            </svg>
+          </span>
+          <span>qr<span class="brand-light">studio</span></span>
+        </a>
+        <div class="topbar-note">
+          <span class="status-dot"></span>
+          Free forever. No sign-up.
+        </div>
+      </header>
+
+      <main>
+        <section class="intro">
+          <h1>Make it<br /><span class="title-accent">scannable.</span></h1>
+          <p class="intro-copy">
+            Turn any link or message into a QR code worth sharing. Make it yours, then take it anywhere.
+          </p>
+        </section>
+
+        <section class="studio" aria-label="QR code generator">
+          <div class="editor-card">
+            <div class="card-heading">
+              <div>
+                <h2>What should it open?</h2>
+              </div>
+              <span class="private-label">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2M3 7h10v7H3z" /></svg>
+                PRIVATE
+              </span>
+            </div>
+
+            <div class="input-wrap">
+              <label for="content">YOUR CONTENT</label>
+              <textarea id="content" rows="3" maxlength="2000" placeholder="Paste a link or type a message..." spellcheck="false">https://example.com</textarea>
+              <div class="input-footer">
+                <span class="input-hint"><span class="tiny-spark">✳</span> Links, text, email, anything.</span>
+                <span id="character-count">19 / 2000</span>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="customize-heading">
+              <div>
+                <h2>Pick your colors</h2>
+              </div>
+              <button class="reset-button" id="reset-button" type="button">Reset</button>
+            </div>
+
+            <div class="color-controls">
+              <label class="color-option" for="foreground">
+                <span class="color-swatch"><input id="foreground" type="color" value="#1d2942" aria-label="QR code color" /></span>
+                <span><span class="color-name">Foreground</span><span class="color-value" id="foreground-value">#1D2942</span></span>
+                <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg>
+              </label>
+              <label class="color-option" for="background">
+                <span class="color-swatch"><input id="background" type="color" value="#ffffff" aria-label="QR background color" /></span>
+                <span><span class="color-name">Background</span><span class="color-value" id="background-value">#FFFFFF</span></span>
+                <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg>
+              </label>
+            </div>
+
+            <div class="artwork-options">
+              <label class="label-input-wrap" for="artwork-label">
+                <span class="size-title">Add a label <span class="optional-label">OPTIONAL</span></span>
+                <input id="artwork-label" type="text" maxlength="32" placeholder="e.g. Scan to visit my site" autocomplete="off" />
+              </label>
+
+              <div class="frame-row">
+                <div>
+                  <span class="size-title">Frame</span>
+                  <span class="size-subtitle">Add a border around your design</span>
+                </div>
+                <div class="frame-picker" role="group" aria-label="Frame style">
+                  <button type="button" data-frame="none" class="selected" aria-pressed="true">None</button>
+                  <button type="button" data-frame="thin" aria-pressed="false">Thin</button>
+                  <button type="button" data-frame="bold" aria-pressed="false">Bold</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="size-row">
+              <div>
+                <span class="size-title">Export size</span>
+                <span class="size-subtitle">Crisp at every scale</span>
+              </div>
+              <div class="size-picker" role="group" aria-label="Export size">
+                <button type="button" data-size="256" aria-pressed="false">S</button>
+                <button type="button" data-size="512" class="selected" aria-pressed="true">M</button>
+                <button type="button" data-size="1024" aria-pressed="false">L</button>
+              </div>
+            </div>
+
+            <div class="format-row">
+              <div>
+                <span class="size-title">File format</span>
+                <span class="size-subtitle">Choose how to save it</span>
+              </div>
+              <div class="format-picker" role="group" aria-label="File format">
+                <button type="button" data-format="png" class="selected" aria-pressed="true">PNG</button>
+                <button type="button" data-format="jpg" aria-pressed="false">JPG</button>
+                <button type="button" data-format="svg" aria-pressed="false">SVG</button>
+                <button type="button" data-format="pdf" aria-pressed="false">PDF</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="preview-card" aria-label="QR code preview">
+            <div class="preview-topline">
+              <span class="live-label"><span></span> LIVE</span>
+            </div>
+
+            <div class="qr-stage" id="qr-stage">
+              <div class="qr-frame" id="qr-frame">
+                <canvas id="qr-canvas" aria-label="Generated QR code with optional label and frame"></canvas>
+                <div class="empty-state" id="empty-state">
+                  <span class="empty-icon" aria-hidden="true">⌁</span>
+                  <span>Your QR code will<br />appear here</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-caption">
+              <span class="caption-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M3 3h5v5H3zM12 3h5v5h-5zM3 12h5v5H3zM5 5h1v1H5zM14 5h1v1h-1zM5 14h1v1H5zM12 12h2v2h-2zM15 15h2v2h-2zM15 12h2v2h-2zM12 15h2v2h-2z" /></svg>
+              </span>
+              <span>Ready to scan, ready to share.</span>
+            </div>
+
+            <button class="download-button" id="download-button" type="button" disabled>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5v10m0 0 4-4m-4 4-4-4M3.5 13v3.5h13V13" /></svg>
+              <span>Download QR code</span>
+              <span class="download-format">PNG</span>
+            </button>
+            <p class="download-note" id="status-message" aria-live="polite">Your code is generated right in your browser.</p>
+          </aside>
+        </section>
+
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
