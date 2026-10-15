@@ -13,6 +13,7 @@ const backgroundInput = document.querySelector('#background');
 const sizeButtons = document.querySelectorAll('[data-size]');
 const formatButtons = document.querySelectorAll('[data-format]');
 const frameButtons = document.querySelectorAll('[data-frame]');
+const frameWidthInput = document.querySelector('#frame-width');
 const downloadFormat = document.querySelector('.download-format');
 const artworkLabelInput = document.querySelector('#artwork-label');
 
@@ -22,6 +23,7 @@ const defaults = {
   background: '#ffffff',
   size: 512,
   frame: 'none',
+  frameWidth: 8,
   label: '',
 };
 
@@ -48,7 +50,7 @@ function escapeXml(value) {
   })[character]);
 }
 
-async function createArtworkSvg(value, size) {
+async function createArtworkSvg(value, size, referenceSize = size) {
   const qrSvg = await QRCode.toString(value, {
     type: 'svg',
     margin: 2,
@@ -67,14 +69,20 @@ async function createArtworkSvg(value, size) {
   }
 
   const label = artworkLabelInput.value.trim();
-  const qrSize = size * (label ? 0.71 : 0.84);
+  const qrSize = size * (label ? 0.8 : 0.84);
   const qrX = (size - qrSize) / 2;
-  const qrY = label ? size * 0.045 : (size - qrSize) / 2;
-  const frameWeight = frameStyle === 'bold' ? size * 0.012 : frameStyle === 'thin' ? size * 0.004 : 0;
-  const frameInset = size * 0.035;
-  const labelFontSize = Math.min(size * 0.036, size * 0.84 / (Math.max(label.length, 1) * 0.62));
+  const qrY = label ? size * 0.035 : (size - qrSize) / 2;
+  const frameWeight = frameStyle === 'bold'
+    ? size * 0.012
+    : frameStyle === 'thin'
+      ? size * 0.004
+      : frameStyle === 'custom'
+      ? Number(frameWidthInput.value) * size / referenceSize
+        : 0;
+  const frameInset = frameWeight ? Math.max(size * 0.035, frameWeight / 2 + 1) : 0;
+  const labelFontSize = Math.min(size * 0.045, size * 0.84 / (Math.max(label.length, 1) * 0.62));
   const labelMarkup = label
-    ? `<text x="${size / 2}" y="${size * 0.91}" fill="${foregroundInput.value}" font-family="Arial, sans-serif" font-size="${labelFontSize}" font-weight="600" text-anchor="middle">${escapeXml(label)}</text>`
+    ? `<text x="${size / 2}" y="${size * 0.9}" fill="${foregroundInput.value}" font-family="Arial, sans-serif" font-size="${labelFontSize}" font-weight="600" text-anchor="middle">${escapeXml(label)}</text>`
     : '';
   const frameMarkup = frameWeight
     ? `<rect x="${frameInset}" y="${frameInset}" width="${size - frameInset * 2}" height="${size - frameInset * 2}" rx="${size * 0.025}" fill="none" stroke="${foregroundInput.value}" stroke-width="${frameWeight}"/>`
@@ -118,7 +126,7 @@ async function renderCode() {
   }
 
   try {
-    const artworkSvg = await createArtworkSvg(value, 256);
+    const artworkSvg = await createArtworkSvg(value, 256, exportSize);
     const nextCanvas = await drawSvgToCanvas(artworkSvg, 256);
 
     if (version !== renderVersion) return;
@@ -158,6 +166,7 @@ backgroundInput.addEventListener('input', () => {
 frameButtons.forEach((button) => {
   button.addEventListener('click', () => {
     frameStyle = button.dataset.frame;
+    frameWidthInput.disabled = frameStyle !== 'custom';
     frameButtons.forEach((item) => {
       const selected = item === button;
       item.classList.toggle('selected', selected);
@@ -165,6 +174,19 @@ frameButtons.forEach((button) => {
     });
     renderCode();
   });
+});
+
+frameWidthInput.addEventListener('input', () => {
+  const width = frameWidthInput.valueAsNumber;
+  if (!Number.isInteger(width) || width < 1 || width > 64) return;
+  frameStyle = 'custom';
+  frameWidthInput.disabled = false;
+  frameButtons.forEach((button) => {
+    const selected = button.dataset.frame === frameStyle;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  renderCode();
 });
 
 sizeButtons.forEach((button) => {
@@ -195,6 +217,8 @@ document.querySelector('#reset-button').addEventListener('click', () => {
   foregroundInput.value = defaults.foreground;
   backgroundInput.value = defaults.background;
   artworkLabelInput.value = defaults.label;
+  frameWidthInput.value = String(defaults.frameWidth);
+  frameWidthInput.disabled = true;
   exportSize = defaults.size;
   exportFormat = 'png';
   frameStyle = defaults.frame;
@@ -225,7 +249,7 @@ downloadButton.addEventListener('click', async () => {
   try {
     const value = contentInput.value.trim();
     let blob;
-    const artworkSvg = await createArtworkSvg(value, exportSize);
+    const artworkSvg = await createArtworkSvg(value, exportSize, exportSize);
 
     if (exportFormat === 'svg') {
       blob = new Blob([artworkSvg], { type: 'image/svg+xml;charset=utf-8' });

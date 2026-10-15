@@ -384,7 +384,7 @@ textarea::placeholder {
 }
 
 .frame-picker button {
-  min-width: 42px;
+  min-width: 40px;
   height: 26px;
   padding: 0 6px;
   border: 0;
@@ -399,6 +399,51 @@ textarea::placeholder {
   background: white;
   color: var(--ink);
   box-shadow: 0 1px 5px rgba(29, 41, 66, 0.12);
+}
+
+.frame-width-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 5px 12px;
+}
+
+.frame-width-wrap > .size-subtitle {
+  grid-column: 1;
+}
+
+.frame-width-input {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #858a91;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+}
+
+.frame-width-input input {
+  width: 68px;
+  height: 30px;
+  padding: 0 7px;
+  border: 1px solid #e8e9e7;
+  border-radius: 6px;
+  outline: none;
+  background: #fcfcfb;
+  color: #30394d;
+  font: inherit;
+  font-size: 11px;
+}
+
+.frame-width-input input:focus {
+  border-color: #a6adba;
+  box-shadow: 0 0 0 3px rgba(32, 42, 64, 0.055);
+}
+
+.frame-width-input input:disabled {
+  background: #f6f6f3;
+  color: #a0a3a5;
 }
 
 .chevron {
@@ -725,16 +770,19 @@ textarea::placeholder {
     flex-direction: column;
   }
 
-  .format-picker {
+  .frame-picker {
     width: 100%;
   }
 
-  .format-picker button,
   .frame-picker button {
     flex: 1;
   }
 
-  .frame-picker {
+  .format-picker {
     width: 100%;
+  }
+
+  .format-picker button {
+    flex: 1;
   }
 }

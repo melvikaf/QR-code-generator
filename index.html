@@ -95,8 +95,17 @@
                   <button type="button" data-frame="none" class="selected" aria-pressed="true">None</button>
                   <button type="button" data-frame="thin" aria-pressed="false">Thin</button>
                   <button type="button" data-frame="bold" aria-pressed="false">Bold</button>
+                  <button type="button" data-frame="custom" aria-pressed="false">Custom</button>
                 </div>
               </div>
+              <label class="frame-width-wrap" for="frame-width">
+                <span class="size-title">Custom frame width</span>
+                <span class="frame-width-input">
+                  <input id="frame-width" type="number" min="1" max="64" step="1" value="8" aria-label="Custom frame width in pixels" disabled />
+                  <span>px</span>
+                </span>
+                <span class="size-subtitle">1 to 64 pixels at export size</span>
+              </label>
             </div>
 
             <div class="size-row">
